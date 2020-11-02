@@ -32,6 +32,6 @@ This document will lead you to containerize MediaWiki with help of Kubernetes an
 9. now we got the mediawiki up and running.
 
 
-Planned well to make this. due to low time I couldn't acheive all thoughts. I can explain in discussion if it's possible.
+Planned well to make this. due to low time I couldn't acheive all my thoughts. I can explain in discussion if it's possible.
 
 ** Thanks for reading! **
