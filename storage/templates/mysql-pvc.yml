@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mediawiki-pvc
+  namespace: "mediawiki-ns"
+  labels:
+    {{- include "storage.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: mediawiki-sc
+  resources:
+    requests:
+      storage: 4Gi
+

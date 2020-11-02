@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wiki.fullname" . }}
+  namespace: "mediawiki-ns"
+  labels:
+    {{- include "wiki.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "wiki.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "wiki.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: {{.Values.containers.requests.cpu}}
+              memory: {{.Values.containers.requests.memory}}
+            limits:
+              cpu: {{.Values.containers.limits.cpu}}
+              memory: {{.Values.containers.limits.memory}}
+          volumeMounts:
+          - name: persistent-storage
+            mountPath: /var/www/html/images
+            subPath: images
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: mediawiki-pvc
+      - name: local-setting-conf
+        configMap:
+          name: local-settings
+
